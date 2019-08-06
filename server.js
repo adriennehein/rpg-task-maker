@@ -5,8 +5,8 @@ const path = require('path');
 const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/yo', function (req, res) {
-    return res.send('wassup');
+app.get('/swish', function (req, res) {
+    return res.send('and flick');
 })
 
 app.get('/', function (req, res) {
