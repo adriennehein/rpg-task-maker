@@ -1,6 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const mongo = require('./mongoConfig')
+const mongoose = mongo.mongoose
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("MongoDB connected!")
+});
+
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
