@@ -15,7 +15,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/swish', function (req, res) {
-    return res.send('and flick');
+    return res.json('and flick');
 })
 
 app.get('/', function (req, res) {
