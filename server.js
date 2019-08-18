@@ -22,4 +22,6 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
-app.listen(process.env.PORT || 8080, () => { console.log("Task maker running!")} );
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => { console.log("Task maker running!")} );
