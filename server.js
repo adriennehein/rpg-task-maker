@@ -1,14 +1,20 @@
-// Utilities
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
-const path = require('path');
-const SECRET = process.env.REACT_APP_SECRET;
+// Config Vars
+require('dotenv').config()
 
 // Dependencies
 const express = require('express');
 const mongo = require('./mongoConfig')
 const mongoose = mongo.mongoose
+const path = require('path');
+
+
+// Utilities
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+const withAuth = require('./auth');
+const SECRET = process.env.REACT_APP_SECRET;
+
 
 // Mongo Setup
 const db = mongoose.connection;
@@ -23,16 +29,17 @@ const User = require('./models/User.js')
 // Express Instance Setup
 const app = express();
 app.use(bodyParser.json());
-app.use(cookieParser);
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));
 
 // API
-app.get('/swish', function (req, res) {
-    return res.json('and flick');
+app.get('/swish', withAuth, function (req, res) {
+    res.json('and flick');
 })
 
 app.post('/register', function(req, res) {
   const { email, password } = req.body;
+  
   const user = new User({email, password});
   user.save(function(err){
     if (err) {
@@ -45,7 +52,7 @@ app.post('/register', function(req, res) {
 
 app.post('/authenticate', function(req, res) {
   const { email, password } = req.body;
-  User.findOne(({ email }, function(err, user) {
+  User.findOne(({ email: email }, function(err, user) {
     if (err) {
       console.log(err);
       res.status(500)
@@ -71,7 +78,7 @@ app.post('/authenticate', function(req, res) {
             })
         } else {
           const payload = { email };
-          const token = jwt.sign(payload, SECRET, {
+          const token = jwt.sign(payload, SECRET, { 
             expiresIn: '1hr'
           });
           res.cookie('token', token, { httpOnly: true })

@@ -9,6 +9,8 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.pre('save', function(next) {
+    console.log('creating user');
+    
     if (this.isNew || this.isModified('password')) {
         const document = this;
         bcrypt.hash(document.password, saltRounds,
