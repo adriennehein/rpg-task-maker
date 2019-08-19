@@ -1,6 +1,9 @@
 // Utilities
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 const path = require('path');
+const SECRET = REACT_APP_SECRET;
 
 // Dependencies
 const express = require('express');
@@ -19,6 +22,8 @@ const User = require('./models/User.js')
 
 // Express Instance Setup
 const app = express();
+app.use(bodyParser.json());
+app.use(cookieParser);
 app.use(express.static(path.join(__dirname, 'build')));
 
 // API
@@ -36,6 +41,45 @@ app.post('/register', function(req, res) {
       res.status(200).json('Sign up successful. Welcome!');
     }
   });
+})
+
+app.post('/authenticate', function(req, res) {
+  const { email, password } = req.body;
+  User.findOne(({ email }, function(err, user) {
+    if (err) {
+      console.log(err);
+      res.status(500)
+        .json({
+          error: "Internal error, please try again"
+        })
+    } else if (!user) {
+      res.status(401)
+        .json({
+          error: "Incorrect email or password"
+        })
+    } else {
+      user.isCorrectPassword(password, function(err, same) {
+        if (err) {
+          res.status(500)
+            .json({
+              error: "Internal error, please try again"
+            })
+        } else if (!same) {
+          res.status(401)
+            .json({
+              error: "Incorrect email or password"
+            })
+        } else {
+          const payload = { email };
+          const token = jwt.sign(payload, SECRET, {
+            expiresIn: '1hr'
+          });
+          res.cookie('token', token, { httpOnly: true })
+            .sendStatus(200)
+        }
+      });
+    }
+  }))
 })
 
 // Serve React
