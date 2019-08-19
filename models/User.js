@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.pre('save', function(next) {
-    if (this.isNew || this.isModified('password') {
+    if (this.isNew || this.isModified('password')) {
         const document = this;
         bcrypt.hash(document.password, saltRounds,
             function(err, hashedPassword) {
@@ -19,10 +19,20 @@ UserSchema.pre('save', function(next) {
                     document.password = hashedPassword;
                     next();
                 }
-        });
+            });
     } else {
         next();
     }
 })
+
+UserSchema.methods.isCorrectPassword = function(password, callback) {
+    bcrypt.compare(password, this.password, function(err, same) {
+        if (err) {
+            callback(err);
+        } else {
+            callback(err, same);
+        }
+    })
+}
 
 module.exports = mongoose.model('User', UserSchema);
