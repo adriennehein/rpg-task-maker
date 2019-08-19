@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const SECRET = REACT_APP_SECRET;
+const SECRET = process.env.REACT_APP_SECRET;
 
 // Dependencies
 const express = require('express');
