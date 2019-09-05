@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 
 const Div = styled.div`
-background: #3b3746;
+    ${props => props.main && css `
+      background: #333d46;
+      padding: 100px 0;
+    `}
     ${props => props.container && css `
       height: 90vh;
         width: 1170px;
@@ -13,26 +16,46 @@ background: #3b3746;
         display: block;
         width: 100%;
         margin: 0 auto;
+        text-align: center;
     `}
 `;
 
+const Form = styled.form`
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 50px 0 100px;
+    background: rgba(0, 0, 0, .4);
+    border-radius: 20px;
+`
+
+const H2 = styled.h2`
+    text-align: center;
+    color: #adadad;
+`
+
 const Input = styled.input`
     min-width: 300px;
-    margin: 0 auto 5px;
+    margin: 0 auto 20px;
     font-size: 18px;
     border: 0;
-    border-bottom: 2px solid #8d8d8d;
+    border-bottom: 2px solid teal;
     padding: 10px 30px;
     background: transparent;
-`;
-
+    ${props => props.button && css`
+        background: #295b75;
+        color: white;
+        border: 2px solid #295b75;
+    `}
+`
 const Label = styled.label`
     width: 200px;
     display: inline-block;
     text-align: right;
     font-size: 16px;
-    color: #8d8d8d;
-`;
+    color: #adadad;
+    padding-right: 10px;
+`
+
 
 export default class Register extends Component {
     constructor(props) {
@@ -76,10 +99,10 @@ export default class Register extends Component {
     render() {
         const { email, password } = this.state;
         return(
-            <Div>
+            <Div main>
               <Div container>
-                <h2>Sign Up</h2>
-                <form onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmit}>
+                  <H2>Register</H2>
                   <Div formRow>
                     <Label htmlFor='email'>Email: </Label>
                     <Input type='email' name='email' onChange={this.handleChange} value={email}></Input>
@@ -90,9 +113,9 @@ export default class Register extends Component {
                   </Div>
 
                   <Div formRow>
-                    <Input type='submit' value='Sign Up'></Input>
+                    <Input button type='submit' value='Sign Up'></Input>
                   </Div>
-                </form>
+                </Form>
               </Div>
             </Div>
         )

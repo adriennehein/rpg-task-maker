@@ -8,7 +8,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 
 const Nav = styled.div`
-  background: #1a1a56;
+  background: #061f2d;
   padding: 40px 0;
   > a {
     color: #fff;

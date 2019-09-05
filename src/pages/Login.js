@@ -1,54 +1,60 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 
-const Button = styled.button`
-    background: transparent;
-    color: #707070;
-    padding: 10px 30px;
-    border: 2px solid #707070;
-    border-radius: 3px;
-    display: block;
-    width: 800px;
-    font-size: 18px;
-    margin: 10px auto;
-    text-transform: uppercase;
-    font-weight: bold;
-    &:hover {
-      background: teal;
-      color: white;
-      border: 2px solid teal;
-      transition: background 500ms ease;
-    }
-    ${props => props.primary && css`
-        background: orange;
-        color: white;
-        border: 2px dotted orange;
+
+const Div = styled.div`
+    ${props => props.main && css `
+      background: #333d46
+      padding: 100px 0;
+    `}
+    ${props => props.container && css `
+      height: 90vh;
+        width: 1170px;
+        margin: 0 auto;
+
+    `}
+    ${props => props.formRow && css `
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
     `}
 `
 
-const Div = styled.div`
-  ${props => props.formRow && css `
-      display: block;
-      width: 100%;
-      margin: 0 auto;
-    `}
+const H2 = styled.h2`
+    color: #adadad;
+    text-align: center;
+`
+
+const Form = styled.form`
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 50px 0 100px;
+    background: rgba(0, 0, 0, .4);
+    border-radius: 20px;
 `
 
 const Input = styled.input`
     min-width: 300px;
-    margin: 0 auto 5px;
+    margin: 0 auto 20px;
     font-size: 18px;
     border: 0;
     border-bottom: 2px solid teal;
     padding: 10px 30px;
     background: transparent;
+    ${props => props.button && css`
+        background: #295b75;
+        color: white;
+        border: 2px solid #295b75;
+    `}
 `
 const Label = styled.label`
     width: 200px;
     display: inline-block;
     text-align: right;
     font-size: 16px;
-    color: #707070;
+    color: #adadad;
+    padding-right: 10px;
 `
 
 export default class Login extends Component {
@@ -96,19 +102,24 @@ export default class Login extends Component {
         const { email, password } = this.state
         console.log(email, password)
         return(
-            <form onSubmit={this.handleSubmit}>
-              <Div formRow>
-                <Label htmlFor='email'>Email: </Label>
-                <Input type='email' name='email' onChange={this.handleChange} value={email} ></Input>
-              </Div>
-              <Div formRow>
-                <Label htmlFor='password'>Password: </Label>
-                <Input type='password' name='password' onChange={this.handleChange} value={password} ></Input>
-              </Div>
-                <input type='submit' value='Sign In'></input>
-                <Button>Useless Stylish Button</Button>
-                <Button primary>Also Stylish Button</Button>
-            </form>
+          <Div main>
+            <Div container>
+              <Form onSubmit={this.handleSubmit}>
+                <H2>Log in</H2>
+                <Div formRow>
+                  <Label htmlFor='email'>Email: </Label>
+                  <Input type='email' name='email' onChange={this.handleChange} value={email} ></Input>
+                </Div>
+                <Div formRow>
+                  <Label htmlFor='password'>Password: </Label>
+                  <Input type='password' name='password' onChange={this.handleChange} value={password} ></Input>
+                </Div>
+                <Div formRow>
+                  <Input button type='submit' value='Sign In'></Input>
+                </Div>
+              </Form>
+            </Div>
+          </Div>
         )
     }
 }
