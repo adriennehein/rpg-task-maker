@@ -35,23 +35,64 @@ const Label = styled.label`
 `;
 
 export default class Register extends Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        email: '',
+        password: '',
+      }
+    }
+
+    handleChange = (event) => {
+      const { value, name } = event.target;
+      this.setState({
+        [name]: value,
+      })
+    }
+
+    handleSubmit = (event) => {
+      event.preventDefault();
+      fetch('/register', {
+        method: 'POST',
+        body: JSON.stringify(this.state),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(res => {
+        if (res.status === 200) {
+          this.props.history.push('/');
+        } else {
+          const error = new Error(res.error);
+          throw error;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert('Error registering. Please try again.');
+      })
+    }
+
     render() {
+        const { email, password } = this.state;
         return(
             <Div>
               <Div container>
                 <h2>Sign Up</h2>
-                <Div formRow>
-                  <Label htmlFor='email'>Email: </Label>
-                  <Input type='email' name='email'></Input>
-                </Div>
-                <Div formRow>
-                  <Label htmlFor='password'>Password: </Label>
-                  <Input type='password' name='password'></Input>
-                </Div>
-                <Div formRow>
-                  <Label htmlFor='password-confirm'>Password: </Label>
-                  <Input type='password' name='password-confirm'></Input>
-                </Div>
+                <form onSubmit={this.handleSubmit}>
+                  <Div formRow>
+                    <Label htmlFor='email'>Email: </Label>
+                    <Input type='email' name='email' onChange={this.handleChange} value={email}></Input>
+                  </Div>
+                  <Div formRow>
+                    <Label htmlFor='password'>Password: </Label>
+                    <Input type='password' name='password' onChange={this.handleChange} value={password}></Input>
+                  </Div>
+
+                  <Div formRow>
+                    <Input type='submit' value='Sign Up'></Input>
+                  </Div>
+                </form>
               </Div>
             </Div>
         )
