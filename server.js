@@ -38,6 +38,7 @@ app.get('/swish', withAuth, function (req, res) {
 })
 
 app.post('/register', function(req, res) {
+  
   const { email, password } = req.body;
   
   const user = new User({email, password});
@@ -52,7 +53,10 @@ app.post('/register', function(req, res) {
 
 app.post('/authenticate', function(req, res) {
   const { email, password } = req.body;
-  User.findOne(({ email: email }, function(err, user) {
+  
+  User.findOne({ email: email }, function(err, user) {
+    console.log(user);
+    
     if (err) {
       console.log(err);
       res.status(500)
@@ -86,7 +90,7 @@ app.post('/authenticate', function(req, res) {
         }
       });
     }
-  }))
+  })
 })
 
 // Serve React
