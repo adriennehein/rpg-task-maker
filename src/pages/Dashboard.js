@@ -28,16 +28,25 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      task: '',
       tasks: [],
-      message: '',
     }
   }
 
   handleSubmit = (taskData) => {
-    this.setState({
-      task: '',
-      tasks: [...this.state.tasks, taskData]
+    // this.setState({
+    //   tasks: [...this.state.tasks, taskData]
+    // })
+    console.log(taskData);
+    fetch('/tasks', {
+      method: 'POST',
+      body: JSON.stringify(taskData),
+      header: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(err => {
+      console.log(err);
+      alert('Error submitting task. Please try again.');
     })
   }
     render() {

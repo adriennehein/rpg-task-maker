@@ -41,17 +41,24 @@ export default class Task extends Component {
 
   sendTask = (event) => {
     event.preventDefault();
-    this.props.taskSubmit(this.state);
+    if (this.state.taskTitle !== '') {
+      this.props.taskSubmit(this.state);
+      this.setState({
+        taskTitle: '',
+        taskDescription: '',
+      })
+    }
   }
 
   render() {
+    const { taskTitle, taskDescription } = this.state;
     return(
       <Div taskCard>
         <form onSubmit={this.sendTask}>
           <label htmlFor="taskTitle">Task Title</label>
-          <input name="taskTitle" id="taskTitle" onChange={this.handleChange}/>
+          <input name="taskTitle" id="taskTitle" onChange={this.handleChange} value={taskTitle}/>
           <label htmlFor="taskDescription">Description of task</label>
-          <input name="taskDescription" id="taskDescription" onChange={this.handleChange}/>
+          <input name="taskDescription" id="taskDescription" onChange={this.handleChange} value={taskDescription}/>
           <input type="submit" value="Add Task" />
         </form>
       </Div>
