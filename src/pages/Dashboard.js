@@ -35,7 +35,6 @@ export default class Dashboard extends Component {
   }
 
   handleSubmit = (taskData) => {
-    // event.preventDefault();
     this.setState({
       task: '',
       tasks: [...this.state.tasks, taskData]
@@ -47,7 +46,7 @@ export default class Dashboard extends Component {
             <Div container>
               <h1>Dashboard</h1>
                 <Task
-                parentSubmit={this.handleSubmit} />
+                taskSubmit={this.handleSubmit} />
                 <p>{this.state.message}</p>
                 <TaskList tasks={this.state.tasks}/>
               <section>
