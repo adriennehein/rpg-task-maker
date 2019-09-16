@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import TaskList from './TaskList';
+import Task from './Task';
 
 const Div = styled.div`
   ${props => props.main && css `
@@ -27,39 +28,27 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentTask: '',
+      task: '',
       tasks: [],
+      message: '',
     }
   }
 
-  handleChange = (event) => {
-    const { value, name } = event.target;
+  handleSubmit = (taskData) => {
+    // event.preventDefault();
     this.setState({
-      [name]: value,
+      task: '',
+      tasks: [...this.state.tasks, taskData]
     })
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.setState({
-      currentTask: '',
-      tasks: [...this.state.tasks, this.state.currentTask]
-    })
-    console.log(this.state);
   }
     render() {
-      const { currentTask } = this.state;
         return(
           <Div main>
             <Div container>
               <h1>Dashboard</h1>
-                <Div taskCard>
-                  <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="currentTask">Description of task</label>
-                    <input name="currentTask" id="currentTask" onChange={this.handleChange} value={currentTask}/>
-                    <input type="submit" value="Add Task" />
-                  </form>
-                </Div>
+                <Task
+                parentSubmit={this.handleSubmit} />
+                <p>{this.state.message}</p>
                 <TaskList tasks={this.state.tasks}/>
               <section>
                 <h3>Completed Tasks</h3>
