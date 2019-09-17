@@ -28,7 +28,7 @@ export default class Task extends Component {
     this.state = {
       taskTitle: '',
       taskDescription: '',
-      completed: false,
+      taskCompleted: false,
     }
   }
 
