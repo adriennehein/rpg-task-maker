@@ -38,7 +38,7 @@ app.get('/swish', withAuth, function (req, res) {
     res.json('and flick');
 })
 
-app.post('/register', function(req, res) {
+app.post('/register', function (req, res) {
 
   const { email, password } = req.body;
 
@@ -53,6 +53,7 @@ app.post('/register', function(req, res) {
 })
 
 app.post('/task', function(req, res) {
+  
   const { taskTitle, taskDescription, taskCompleted } = req.body;
 
   const task = new Task({taskTitle, taskDescription, taskCompleted});
@@ -61,7 +62,6 @@ app.post('/task', function(req, res) {
       res.status(500).json("Error. Task not saved.");
     } else {
       res.status(200).json("Task saved successfully.");
-      console.log('success');
     }
   })
 })
