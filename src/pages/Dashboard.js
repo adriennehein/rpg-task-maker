@@ -32,11 +32,19 @@ export default class Dashboard extends Component {
     }
   }
 
+  getTasks = () => {
+    fetch('/tasks')
+    .then(response => {
+      console.log(response);
+    })
+    .catch(err => {
+      console.log(err);
+      alert('Problem fetching task data.')
+    })
+  }
+
+
   handleSubmit = (taskData) => {
-    // this.setState({
-    //   tasks: [...this.state.tasks, taskData]
-    // })
-    console.log(taskData);
     fetch('/task', {
       method: 'POST',
       body: JSON.stringify(taskData),
@@ -49,24 +57,29 @@ export default class Dashboard extends Component {
       alert('Error submitting task. Please try again.');
     })
   }
-    render() {
-        return(
-          <Div main>
-            <Div container>
-              <h1>Dashboard</h1>
-                <Task
-                taskSubmit={this.handleSubmit} />
-                <p>{this.state.message}</p>
-                <TaskList tasks={this.state.tasks}/>
-              <section>
-                <h3>Completed Tasks</h3>
-                <Div taskCard>
-                  <h4>Write the Bible of Cat</h4>
-                  <p>I want to spread the word. Cat is not a forgiving god.</p>
-                </Div>
-              </section>
-            </Div>
+
+  componentDidMount(){
+    this.getTasks();
+  }
+
+  render() {
+      return(
+        <Div main>
+          <Div container>
+            <h1>Dashboard</h1>
+              <Task
+              taskSubmit={this.handleSubmit} />
+              <p>{this.state.message}</p>
+              <TaskList tasks={this.state.tasks}/>
+            <section>
+              <h3>Completed Tasks</h3>
+              <Div taskCard>
+                <h4>Write the Bible of Cat</h4>
+                <p>I want to spread the word. Cat is not a forgiving god.</p>
+              </Div>
+            </section>
           </Div>
-        )
-    }
+        </Div>
+      )
+  }
 }

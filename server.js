@@ -52,8 +52,12 @@ app.post('/register', function (req, res) {
   });
 })
 
+app.get('/tasks', function(req, res) {
+  console.log('Fetching tasks');
+})
+
 app.post('/task', function(req, res) {
-  
+
   const { taskTitle, taskDescription, taskCompleted } = req.body;
 
   const task = new Task({taskTitle, taskDescription, taskCompleted});
