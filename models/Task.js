@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
-// const bcrype = require('bcyrpt')
 
 const TaskSchema = new mongoose.Schema({
   taskTitle: { type: String, require: true },
-  taskDescription: { type: String },
-  taskCompleted: { type: Boolean }
+  taskDescription:  String,
+  taskCompleted: Boolean,
 })
 
 TaskSchema.pre('save', function(next) {
   console.log('creating task');
+  next();
 })
 
 module.exports = mongoose.model('Task', TaskSchema);

@@ -36,7 +36,7 @@ export default class Dashboard extends Component {
     // this.setState({
     //   tasks: [...this.state.tasks, taskData]
     // })
-    console.log(taskData);
+    // console.log(taskData);
     fetch('/task', {
       method: 'POST',
       body: JSON.stringify(taskData),

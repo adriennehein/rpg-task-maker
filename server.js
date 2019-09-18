@@ -61,6 +61,7 @@ app.post('/task', function(req, res) {
       res.status(500).json("Error. Task not saved.");
     } else {
       res.status(200).json("Task saved successfully.");
+      console.log('success');
     }
   })
 })
