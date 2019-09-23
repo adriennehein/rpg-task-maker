@@ -53,7 +53,14 @@ app.post('/register', function (req, res) {
 })
 
 app.get('/tasks', function(req, res) {
-  console.log('Fetching tasks');
+  // console.log(req)
+  const tasks = Task.find({}, (err, docs) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(docs)
+    }
+  });
 })
 
 app.post('/task', function(req, res) {

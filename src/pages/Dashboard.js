@@ -35,7 +35,11 @@ export default class Dashboard extends Component {
   getTasks = () => {
     fetch('/tasks')
     .then(response => {
-      console.log(response);
+      console.log('raw response ', response);
+      return response.json();
+    })
+    .then(parseRes => {
+      console.log(parseRes)
     })
     .catch(err => {
       console.log(err);
