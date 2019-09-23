@@ -25,6 +25,7 @@ db.once('open', function() {
 
 // Model Setup
 const User = require('./models/User.js')
+const Task = require('./models/Task.js')
 
 // Express Instance Setup
 const app = express();
@@ -37,10 +38,10 @@ app.get('/swish', withAuth, function (req, res) {
     res.json('and flick');
 })
 
-app.post('/register', function(req, res) {
-  
+app.post('/register', function (req, res) {
+
   const { email, password } = req.body;
-  
+
   const user = new User({email, password});
   user.save(function(err){
     if (err) {
@@ -51,12 +52,37 @@ app.post('/register', function(req, res) {
   });
 })
 
+app.get('/tasks', function(req, res) {
+  // console.log(req)
+  const tasks = Task.find({}, (err, docs) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(docs)
+    }
+  });
+})
+
+app.post('/task', function(req, res) {
+
+  const { taskTitle, taskDescription, taskCompleted } = req.body;
+
+  const task = new Task({taskTitle, taskDescription, taskCompleted});
+  task.save(function(err) {
+    if (err) {
+      res.status(500).json("Error. Task not saved.");
+    } else {
+      res.status(200).json("Task saved successfully.");
+    }
+  })
+})
+
 app.post('/authenticate', function(req, res) {
   const { email, password } = req.body;
-  
+
   User.findOne({ email: email }, function(err, user) {
     console.log(user);
-    
+
     if (err) {
       console.log(err);
       res.status(500)
@@ -82,7 +108,7 @@ app.post('/authenticate', function(req, res) {
             })
         } else {
           const payload = { email };
-          const token = jwt.sign(payload, SECRET, { 
+          const token = jwt.sign(payload, SECRET, {
             expiresIn: '1hr'
           });
           res.cookie('token', token, { httpOnly: true })
