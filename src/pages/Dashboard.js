@@ -39,7 +39,9 @@ export default class Dashboard extends Component {
       return response.json();
     })
     .then(parseRes => {
-      console.log(parseRes)
+      this.setState({
+        tasks: parseRes,
+      })
     })
     .catch(err => {
       console.log(err);

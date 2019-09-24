@@ -37,7 +37,9 @@ export default class TaskList extends Component {
           <p>The plant is hungry.</p>
         </Div>
         {
-          this.props.tasks.map((task, index) => <Div taskCard key={index}><h4>{task.taskTitle}</h4><p>{task.taskDescription}</p></Div>)
+          this.props.tasks.map((task, index) => 
+              <Div taskCard key={index}><h4>{task.taskTitle}</h4><p>{task.taskDescription}</p></Div>
+              )
         }
       </section>
     )
