@@ -29,6 +29,8 @@ export default class Dashboard extends Component {
     super(props)
     this.state = {
       tasks: [],
+      isLoading: true,
+      error: '',
     }
   }
 
@@ -41,11 +43,14 @@ export default class Dashboard extends Component {
     .then(parseRes => {
       this.setState({
         tasks: parseRes,
+        isLoading: false,
       })
     })
     .catch(err => {
+      this.setState({
+        error: err,
+      })
       console.log(err);
-      alert('Problem fetching task data.')
     })
   }
 
@@ -69,14 +74,22 @@ export default class Dashboard extends Component {
   }
 
   render() {
+      const { isLoading, tasks, error} = this.state;
       return(
         <Div main>
           <Div container>
             <h1>Dashboard</h1>
-              <Task
-              taskSubmit={this.handleSubmit} />
-              <p>{this.state.message}</p>
-              <TaskList tasks={this.state.tasks}/>
+            { error ? <p>{error.message}</p> : null }
+
+            <Task
+            taskSubmit={this.handleSubmit} />
+
+            { !isLoading ? (
+              <TaskList tasks={tasks}/>
+            ) : (
+              <h3>Tasks are Loading...</h3>
+            )}
+
             <section>
               <h3>Completed Tasks</h3>
               <Div taskCard>
